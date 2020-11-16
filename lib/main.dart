@@ -54,17 +54,17 @@ const List<int> distancePowers = <int>[
 ];
 
 const List<String> surfaceUnits = <String>[
-  'km\u00B2','hm\u00B2/ha','dam\u00B2/a','m\u00B2','dm\u00B2','cm\u00B2','mm\u00B2'
+  'km\u00B2','hm\u00B2/ha','dam\u00B2/a','m\u00B2','dm\u00B2','cm\u00B2','mm\u00B2','µm\u00B2'
 ];
 const List<int> surfacePowers = <int>[
-  6,4,2,0,-2,-4,-6,
+  6,4,2,0,-2,-4,-6,-12
 ];
 
 const List<String> volumeUnits = <String>[
-  'm\u00B3','dm\u00B3','cm\u00B3','mm\u00B3','µm\u00B3','nm\u00B3','pm\u00B3','fm\u00B3','am\u00B3'
+  'km\u00B3/TL','hm\u00B3/GL','cm\u00B3/ML','m\u00B3','dm\u00B3/L','cm\u00B3/cL','mm\u00B3/mL'
 ];
 const List<int> volumePowers = <int>[
-  0,-1,-2,-3,-6,-10,-12,-15,-18
+  9,6,3,0,-3,-6,-9
 ];
 
 const List<Choice> choices = <Choice>[
@@ -83,7 +83,7 @@ class ChoicePage extends StatefulWidget {
 
 class _ChoicePageState extends State<ChoicePage> {
 
-  double _value = 0;
+  int _value = 0;
   int _mainPower = 0;
   String _dropdownValue = '';
   Choice choice;
@@ -112,10 +112,10 @@ class _ChoicePageState extends State<ChoicePage> {
                   child: TextFormField(
                     onChanged: (String value) async {
                       if(!value.isEmpty) {
-                        double newValue = double.tryParse(value);
+                        int newValue = int.tryParse(value);
                         if(newValue != null) {
                           setState(() {
-                            _value = double.tryParse(value);
+                            _value = int.tryParse(value);
                           });
                         }
                         else {
@@ -131,7 +131,7 @@ class _ChoicePageState extends State<ChoicePage> {
                       }
 
                     },
-                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'\d*\.?\d*'))],
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number,
                   ),
                 ),
@@ -182,7 +182,7 @@ class _ChoicePageState extends State<ChoicePage> {
     for(int i=0 ; i < this.widget.choice.units.length ; i++) {
       containers.add(
         Container(
-          margin: EdgeInsets.fromLTRB(5, 10.0, 5, 0),
+          margin: EdgeInsets.fromLTRB(5, 15.0, 5, 0),
           padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -197,7 +197,7 @@ class _ChoicePageState extends State<ChoicePage> {
             ],
           ),
           child: Text(
-            '${(_value * pow(10, tempPower - this.widget.choice.powers[i])).toStringAsFixed(2)} ${this.widget.choice.units[i]}',
+            '${(_value * pow(10, tempPower - this.widget.choice.powers[i])).toStringAsFixed(4)} ${this.widget.choice.units[i]}',
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontWeight: FontWeight.bold),
