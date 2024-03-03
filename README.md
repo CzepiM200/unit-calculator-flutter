@@ -1,4 +1,4 @@
-# units_flutter
+# Unit Calculator with Flutter
 
 ![alt text](https://i.ibb.co/0fPRqtJ/ezgif-com-gif-maker-6.gif)
 
